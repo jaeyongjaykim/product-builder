@@ -3,52 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>저녁 메뉴 추천</title>
+    <title>오늘 뭐 먹지? | 저녁 메뉴 추천</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="top-controls">
-        <button id="theme-toggle-btn">테마 변경</button>
-        <button id="lang-toggle-btn">English</button>
-    </div>
-    <div class="container">
-        <h1 id="main-title">오늘의 저녁 메뉴는?</h1>
-        <div class="menu-container">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">오늘 뭐 먹지?</span>
+            </a>
+            <div class="nav-actions">
+                <button id="theme-toggle-btn" class="nav-btn" aria-label="테마 변경">
+                    <span class="theme-icon light">☀️</span>
+                    <span class="theme-icon dark">🌙</span>
+                </button>
+                <button id="lang-toggle-btn" class="nav-btn lang-btn">EN</button>
+            </div>
         </div>
-        <button id="generator-btn">메뉴 추천받기</button>
+    </nav>
 
-        <div class="animal-test-link">
-            <a href="animal-test.html" id="animal-test-btn">🐶🐱 동물상 테스트 하러가기</a>
+    <!-- Hero Section -->
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1 id="main-title" class="hero-title">
+                    <span class="title-line">오늘 저녁</span>
+                    <span class="title-line highlight">뭐 먹을까?</span>
+                </h1>
+                <p class="hero-subtitle" id="hero-subtitle">결정장애 탈출! 버튼 하나로 오늘의 메뉴를 추천받으세요</p>
+            </div>
+        </section>
+
+        <!-- Menu Card Section -->
+        <section class="menu-section">
+            <div class="menu-card-wrapper">
+                <div class="menu-container" id="menu-container">
+                    <!-- Menu card will be inserted here -->
+                </div>
+                <button id="generator-btn" class="primary-btn">
+                    <span class="btn-icon">🎲</span>
+                    <span class="btn-text" id="generator-btn-text">메뉴 추천받기</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section">
+            <div class="section-container">
+                <h2 class="section-title" id="features-title">더 많은 재미</h2>
+                <div class="features-grid">
+                    <a href="animal-test.html" class="feature-card animal-card">
+                        <div class="feature-icon">
+                            <span class="emoji-float">🐶</span>
+                            <span class="emoji-float delay">🐱</span>
+                        </div>
+                        <h3 class="feature-title" id="animal-test-title">동물상 테스트</h3>
+                        <p class="feature-desc" id="animal-test-desc">나는 강아지상? 고양이상? AI가 분석해드려요</p>
+                        <span class="feature-cta">테스트 하기 →</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Partnership Section -->
+        <section class="partnership-section">
+            <div class="section-container">
+                <div class="partnership-wrapper">
+                    <div class="partnership-info">
+                        <h2 class="section-title" id="partnership-title">제휴 문의</h2>
+                        <p class="partnership-desc" id="partnership-desc">비즈니스 협업 및 제휴에 관심이 있으시다면 연락주세요</p>
+                    </div>
+                    <form action="https://formspree.io/f/mykprokr" method="POST" id="partnership-form" class="partnership-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name" id="label-name">성함/업체명</label>
+                                <input type="text" id="name" name="name" placeholder="홍길동" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email" id="label-email">이메일</label>
+                                <input type="email" id="email" name="email" placeholder="hello@example.com" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="message" id="label-message">문의 내용</label>
+                            <textarea id="message" name="message" placeholder="문의하실 내용을 입력해주세요" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn" id="submit-btn">
+                            <span>문의하기</span>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comments Section -->
+        <section class="comments-section">
+            <div class="section-container">
+                <h2 class="section-title" id="comments-title">커뮤니티</h2>
+                <p class="section-desc" id="comments-desc">다른 사람들과 메뉴 고민을 나눠보세요</p>
+                <div class="comments-wrapper">
+                    <div id="disqus_thread"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>Made with ❤️ for food lovers</p>
         </div>
-    </div>
+    </footer>
 
-    <div class="partnership-container">
-        <h2 id="partnership-title">제휴 문의</h2>
-        <form action="https://formspree.io/f/mykprokr" method="POST" id="partnership-form">
-            <input type="text" name="name" placeholder="성함/업체명" required>
-            <input type="email" name="email" placeholder="이메일 주소" required>
-            <textarea name="message" placeholder="문의 내용을 입력해주세요" required></textarea>
-            <button type="submit">문의하기</button>
-        </form>
-    </div>
+    <script>
+        var disqus_config = function () {
+            this.page.url = window.location.href;
+            this.page.identifier = window.location.pathname;
+        };
 
-    <div class="comments-container">
-        <div id="disqus_thread"></div>
-        <script>
-            var disqus_config = function () {
-                this.page.url = window.location.href;
-                this.page.identifier = window.location.pathname;
-            };
-
-            (function() {
+        (function() {
             var d = document, s = d.createElement('script');
             s.src = 'https://product-builder-16.disqus.com/embed.js';
             s.setAttribute('data-timestamp', +new Date());
             (d.head || d.body).appendChild(s);
-            })();
-        </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </div>
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
     <script src="main.js"></script>
 </body>
