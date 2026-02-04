@@ -237,3 +237,16 @@ body.dark-mode #partnership-form button {
 body.dark-mode #partnership-form button:hover {
     background-color: #777;
 }
+
+.comments-container {
+    margin-top: 50px;
+    padding: 30px;
+    background-color: var(--container-bg-color);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px var(--box-shadow-color);
+    max-width: 500px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+}
