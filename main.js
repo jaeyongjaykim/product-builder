@@ -1,5 +1,5 @@
 const generatorBtn = document.getElementById('generator-btn');
-const lottoNumbersContainer = document.querySelector('.lotto-numbers');
+const menuContainer = document.querySelector('.menu-container');
 const themeToggleBtn = document.getElementById('theme-toggle-btn');
 
 // Theme toggle functionality
@@ -24,40 +24,33 @@ themeToggleBtn.addEventListener('click', () => {
     localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
 });
 
-function generateNumbers() {
-    const numbers = new Set();
-    while (numbers.size < 6) {
-        numbers.add(Math.floor(Math.random() * 45) + 1);
-    }
-    return Array.from(numbers).sort((a, b) => a - b);
+const dinnerMenus = [
+    "김치찌개", "된장찌개", "삼겹살", "치킨", "피자", "햄버거",
+    "초밥", "파스타", "떡볶이", "라면", "비빔밥", "불고기",
+    "족발", "보쌈", "카레", "돈까스", "냉면", "칼국수", "마라탕", "쌀국수"
+];
+
+function getRandomMenu() {
+    const randomIndex = Math.floor(Math.random() * dinnerMenus.length);
+    return dinnerMenus[randomIndex];
 }
 
-function getColorForNumber(number) {
-    if (number <= 10) return '#fbc400'; // Yellow
-    if (number <= 20) return '#69c8f2'; // Blue
-    if (number <= 30) return '#ff7272'; // Red
-    if (number <= 40) return '#aaa';    // Gray
-    return '#b0d840';      // Green
-}
-
-function displayNumbers(numbers) {
-    lottoNumbersContainer.innerHTML = '';
-    for (const number of numbers) {
-        const numberDiv = document.createElement('div');
-        numberDiv.classList.add('number');
-        numberDiv.textContent = number;
-        numberDiv.style.backgroundColor = getColorForNumber(number);
-        lottoNumbersContainer.appendChild(numberDiv);
-    }
+function displayMenu(menuName) {
+    menuContainer.innerHTML = '';
+    const menuDiv = document.createElement('div');
+    menuDiv.classList.add('menu-item');
+    menuDiv.textContent = menuName;
+    menuContainer.appendChild(menuDiv);
 }
 
 function handleGeneratorClick() {
-    lottoNumbersContainer.innerHTML = ''; // Clear existing numbers
-    const newNumbers = generateNumbers();
-    displayNumbers(newNumbers);
+    // Add a simple animation effect or just switch
+    menuContainer.innerHTML = ''; 
+    const menu = getRandomMenu();
+    displayMenu(menu);
 }
 
 generatorBtn.addEventListener('click', handleGeneratorClick);
 
 // Initial generation
-displayNumbers(generateNumbers());
+displayMenu(getRandomMenu());
