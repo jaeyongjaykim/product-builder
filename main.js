@@ -85,6 +85,17 @@ if (savedTheme === 'dark') {
 themeToggleBtn.addEventListener('click', () => {
     const isDarkMode = document.body.classList.toggle('dark-mode');
     localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+    
+    // Reset Disqus to pick up the new theme
+    if (typeof DISQUS !== 'undefined') {
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                this.page.identifier = window.location.pathname;
+                this.page.url = window.location.href;
+            }
+        });
+    }
 });
 
 langToggleBtn.addEventListener('click', () => {
