@@ -1,175 +1,172 @@
-const generatorBtn = document.getElementById('generator-btn');
-const menuContainer = document.querySelector('.menu-container');
-const themeToggleBtn = document.getElementById('theme-toggle-btn');
-const langToggleBtn = document.getElementById('lang-toggle-btn');
-const mainTitle = document.getElementById('main-title');
+// Teachable Machine 모델 URL
+const URL = "https://teachablemachine.withgoogle.com/models/sRJk5css6J/";
 
-// Unified Menu Data
-const menuItems = [
-    { ko: "김치찌개", en: "Kimchi Stew" },
-    { ko: "된장찌개", en: "Soybean Paste Stew" },
-    { ko: "삼겹살", en: "Grilled Pork Belly BBQ" },
-    { ko: "치킨", en: "Fried Chicken" },
-    { ko: "피자", en: "Pizza" },
-    { ko: "햄버거", en: "Hamburger" },
-    { ko: "초밥", en: "Sushi" },
-    { ko: "파스타", en: "Pasta" },
-    { ko: "떡볶이", en: "Tteokbokki spicy rice cake" },
-    { ko: "라면", en: "Ramen noodles" },
-    { ko: "비빔밥", en: "Bibimbap" },
-    { ko: "불고기", en: "Bulgogi" },
-    { ko: "족발", en: "Jokbal Braised Pig's Trotters" },
-    { ko: "보쌈", en: "Bossam Napa Wraps with Pork" },
-    { ko: "카레", en: "Curry Rice" },
-    { ko: "돈까스", en: "Tonkatsu Pork Cutlet" },
-    { ko: "냉면", en: "Naengmyeon Cold Noodles" },
-    { ko: "칼국수", en: "Kalguksu Noodle Soup" },
-    { ko: "마라탕", en: "Malatang" },
-    { ko: "쌀국수", en: "Pho Rice Noodles" }
-];
+let model, webcam, maxPredictions;
 
-const uiText = {
-    ko: {
-        title: "오늘의 저녁 메뉴는?",
-        button: "메뉴 추천받기",
-        theme: "테마 변경",
-        lang: "English",
-        partnershipTitle: "제휴 문의"
+// DOM 요소
+const startScreen = document.getElementById('start-screen');
+const cameraScreen = document.getElementById('camera-screen');
+const resultScreen = document.getElementById('result-screen');
+const startBtn = document.getElementById('start-btn');
+const captureBtn = document.getElementById('capture-btn');
+const retryBtn = document.getElementById('retry-btn');
+const webcamContainer = document.getElementById('webcam-container');
+const analyzingText = document.getElementById('analyzing-text');
+
+// 동물상 설명
+const animalDescriptions = {
+    dog: {
+        icon: '🐶',
+        title: '강아지상',
+        descriptions: [
+            '당신은 친근하고 활발한 매력의 소유자!',
+            '사람들에게 다가가기 쉽고 밝은 에너지를 가졌어요.',
+            '충성스럽고 애정 표현이 풍부한 타입이에요.',
+            '주변 사람들을 행복하게 만드는 힘이 있어요!'
+        ]
     },
-    en: {
-        title: "What's for Dinner Today?",
-        button: "Get Recommendation",
-        theme: "Toggle Theme",
-        lang: "한국어",
-        partnershipTitle: "Partnership Inquiry"
+    cat: {
+        icon: '🐱',
+        title: '고양이상',
+        descriptions: [
+            '당신은 도도하고 신비로운 매력의 소유자!',
+            '독립적이면서도 은근한 애교가 있어요.',
+            '차분하고 우아한 분위기를 가졌어요.',
+            '한번 마음을 열면 깊은 유대감을 형성해요!'
+        ]
     }
 };
 
-let currentLang = localStorage.getItem('lang') || 'ko';
-let currentMenu = null;
-
-function updateLanguage(lang) {
-    currentLang = lang;
-    localStorage.setItem('lang', lang);
-    
-    document.documentElement.lang = lang;
-    mainTitle.textContent = uiText[lang].title;
-    generatorBtn.textContent = uiText[lang].button;
-    themeToggleBtn.textContent = uiText[lang].theme;
-    langToggleBtn.textContent = uiText[lang].lang;
-    document.getElementById('partnership-title').textContent = uiText[lang].partnershipTitle;
-    
-    // Update display if there's a menu showing
-    if (currentMenu) {
-        displayMenu(currentMenu);
-    }
-}
-
-// Theme toggle functionality
-function applyTheme(isDarkMode) {
-    if (isDarkMode) {
-        document.body.classList.add('dark-mode');
-    } else {
-        document.body.classList.remove('dark-mode');
-    }
-}
-
-// Load saved theme preference
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme === 'dark') {
-    applyTheme(true);
-} else {
-    applyTheme(false);
-}
-
-themeToggleBtn.addEventListener('click', () => {
-    const isDarkMode = document.body.classList.toggle('dark-mode');
-    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-    
-    // Reset Disqus to pick up the new theme
-    if (typeof DISQUS !== 'undefined') {
-        DISQUS.reset({
-            reload: true,
-            config: function () {
-                this.page.identifier = window.location.pathname;
-                this.page.url = window.location.href;
-            }
-        });
-    }
+// 시작 버튼 클릭
+startBtn.addEventListener('click', async () => {
+    startScreen.classList.add('hidden');
+    cameraScreen.classList.remove('hidden');
+    await init();
 });
 
-langToggleBtn.addEventListener('click', () => {
-    const nextLang = currentLang === 'ko' ? 'en' : 'ko';
-    updateLanguage(nextLang);
+// 사진 찍기 버튼 클릭
+captureBtn.addEventListener('click', async () => {
+    captureBtn.classList.add('hidden');
+    analyzingText.classList.remove('hidden');
+
+    // 잠시 후 분석 결과 표시 (여러 프레임 분석)
+    let predictions = [];
+    for (let i = 0; i < 5; i++) {
+        const prediction = await model.predict(webcam.canvas);
+        predictions.push(prediction);
+        await new Promise(resolve => setTimeout(resolve, 100));
+    }
+
+    // 평균 계산
+    const avgPrediction = predictions[0].map((p, idx) => {
+        const avg = predictions.reduce((sum, pred) => sum + pred[idx].probability, 0) / predictions.length;
+        return {
+            className: p.className,
+            probability: avg
+        };
+    });
+
+    showResult(avgPrediction);
 });
 
-function getRandomMenu() {
-    const randomIndex = Math.floor(Math.random() * menuItems.length);
-    return menuItems[randomIndex];
+// 다시 테스트 버튼 클릭
+retryBtn.addEventListener('click', async () => {
+    resultScreen.classList.add('hidden');
+    cameraScreen.classList.remove('hidden');
+    captureBtn.classList.remove('hidden');
+    analyzingText.classList.add('hidden');
+
+    // 웹캠 다시 시작
+    await webcam.play();
+    window.requestAnimationFrame(loop);
+});
+
+// 모델 및 웹캠 초기화
+async function init() {
+    const modelURL = URL + "model.json";
+    const metadataURL = URL + "metadata.json";
+
+    // 모델 로드
+    model = await tmImage.load(modelURL, metadataURL);
+    maxPredictions = model.getTotalClasses();
+
+    // 웹캠 설정
+    const flip = true;
+    webcam = new tmImage.Webcam(300, 300, flip);
+    await webcam.setup();
+    await webcam.play();
+    window.requestAnimationFrame(loop);
+
+    // 웹캠 캔버스 추가
+    webcamContainer.innerHTML = '';
+    webcamContainer.appendChild(webcam.canvas);
+
+    // 사진 찍기 버튼 표시
+    captureBtn.classList.remove('hidden');
 }
 
-function generateMenuSVG(name) {
-    // Generate a simple hash from the name for consistent colors
-    let hash = 0;
-    for (let i = 0; i < name.length; i++) {
-        hash = name.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    
-    const getHue = (offset) => Math.abs((hash + offset) % 360);
-    const color1 = `hsl(${getHue(0)}, 70%, 60%)`;
-    const color2 = `hsl(${getHue(120)}, 70%, 40%)`;
-    const color3 = `hsl(${getHue(240)}, 70%, 50%)`;
+// 웹캠 업데이트 루프
+async function loop() {
+    webcam.update();
+    window.requestAnimationFrame(loop);
+}
 
-    // Create a unique abstract SVG
-    const svg = `
-        <svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-            <rect width="400" height="400" fill="${color1}"/>
-            <circle cx="200" cy="200" r="150" fill="${color2}" opacity="0.6"/>
-            <path d="M0 400 Q 200 100 400 400" fill="${color3}" opacity="0.8"/>
-            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="40" fill="white" font-weight="bold">${name}</text>
-        </svg>
+// 결과 표시
+function showResult(prediction) {
+    // 웹캠 정지
+    webcam.stop();
+
+    cameraScreen.classList.add('hidden');
+    resultScreen.classList.remove('hidden');
+
+    // 결과 찾기 (강아지/고양이 중 높은 확률)
+    let dogProb = 0;
+    let catProb = 0;
+
+    prediction.forEach(p => {
+        const className = p.className.toLowerCase();
+        if (className.includes('dog') || className.includes('강아지')) {
+            dogProb = p.probability;
+        } else if (className.includes('cat') || className.includes('고양이')) {
+            catProb = p.probability;
+        }
+    });
+
+    const isDog = dogProb > catProb;
+    const animal = isDog ? animalDescriptions.dog : animalDescriptions.cat;
+    const probability = isDog ? dogProb : catProb;
+
+    // 결과 표시
+    document.getElementById('result-animal-icon').textContent = animal.icon;
+    document.getElementById('result-title').textContent = `당신은 ${animal.title}!`;
+    document.getElementById('result-percentage').textContent = `${Math.round(probability * 100)}%`;
+
+    // 랜덤 설명 선택
+    const randomDesc = animal.descriptions[Math.floor(Math.random() * animal.descriptions.length)];
+    document.getElementById('result-description').textContent = randomDesc;
+
+    // 확률 바 표시
+    const barsContainer = document.getElementById('probability-bars');
+    barsContainer.innerHTML = `
+        <div class="probability-item">
+            <span class="probability-label">🐶 강아지</span>
+            <div class="probability-bar-container">
+                <div class="probability-bar dog" style="width: 0%">${Math.round(dogProb * 100)}%</div>
+            </div>
+        </div>
+        <div class="probability-item">
+            <span class="probability-label">🐱 고양이</span>
+            <div class="probability-bar-container">
+                <div class="probability-bar cat" style="width: 0%">${Math.round(catProb * 100)}%</div>
+            </div>
+        </div>
     `;
-    return `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svg)))}`;
+
+    // 애니메이션을 위해 약간의 딜레이 후 바 너비 설정
+    setTimeout(() => {
+        const dogBar = barsContainer.querySelector('.probability-bar.dog');
+        const catBar = barsContainer.querySelector('.probability-bar.cat');
+        dogBar.style.width = `${Math.round(dogProb * 100)}%`;
+        catBar.style.width = `${Math.round(catProb * 100)}%`;
+    }, 100);
 }
-
-function displayMenu(menu) {
-    currentMenu = menu; // Store for language switching
-    menuContainer.innerHTML = '';
-    
-    const menuName = menu[currentLang];
-    
-    const cardDiv = document.createElement('div');
-    cardDiv.classList.add('menu-card');
-
-    // Local SVG Generation
-    const imageUrl = generateMenuSVG(menu.ko);
-    
-    const imgElement = document.createElement('img');
-    imgElement.src = imageUrl;
-    imgElement.alt = menuName;
-    imgElement.classList.add('menu-image');
-
-    const nameDiv = document.createElement('div');
-    nameDiv.classList.add('menu-name');
-    nameDiv.textContent = menuName;
-
-    cardDiv.appendChild(imgElement);
-    cardDiv.appendChild(nameDiv);
-    
-    menuContainer.appendChild(cardDiv);
-}
-
-function handleGeneratorClick() {
-    menuContainer.innerHTML = '<div class="loading">...</div>'; // Simple loading state
-    const menu = getRandomMenu();
-    // Small delay to make it feel like "processing" if desired, 
-    // but direct call is snappier.
-    displayMenu(menu);
-}
-
-generatorBtn.addEventListener('click', handleGeneratorClick);
-
-// Initial setup
-updateLanguage(currentLang);
-// Generate one on load
-handleGeneratorClick();

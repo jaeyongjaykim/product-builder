@@ -3,49 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>저녁 메뉴 추천</title>
+    <title>동물상 테스트 - 나는 강아지상? 고양이상?</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
 </head>
 <body>
-    <div class="top-controls">
-        <button id="theme-toggle-btn">테마 변경</button>
-        <button id="lang-toggle-btn">English</button>
-    </div>
     <div class="container">
-        <h1 id="main-title">오늘의 저녁 메뉴는?</h1>
-        <div class="menu-container">
+        <h1>동물상 테스트</h1>
+        <p class="subtitle">나는 강아지상일까? 고양이상일까?</p>
+
+        <div id="start-screen">
+            <div class="animal-icons">
+                <span class="animal-icon dog">🐶</span>
+                <span class="animal-icon cat">🐱</span>
+            </div>
+            <p class="description">카메라로 당신의 얼굴을 분석해서<br>어떤 동물과 닮았는지 알려드려요!</p>
+            <button id="start-btn">테스트 시작하기</button>
         </div>
-        <button id="generator-btn">메뉴 추천받기</button>
+
+        <div id="camera-screen" class="hidden">
+            <div id="webcam-container"></div>
+            <div id="analyzing-text" class="hidden">분석 중...</div>
+            <button id="capture-btn" class="hidden">사진 찍기</button>
+        </div>
+
+        <div id="result-screen" class="hidden">
+            <div id="result-animal-icon"></div>
+            <h2 id="result-title"></h2>
+            <div id="result-percentage"></div>
+            <div id="result-description"></div>
+            <div id="probability-bars"></div>
+            <button id="retry-btn">다시 테스트하기</button>
+        </div>
     </div>
 
-    <div class="partnership-container">
-        <h2 id="partnership-title">제휴 문의</h2>
-        <form action="https://formspree.io/f/mykprokr" method="POST" id="partnership-form">
-            <input type="text" name="name" placeholder="성함/업체명" required>
-            <input type="email" name="email" placeholder="이메일 주소" required>
-            <textarea name="message" placeholder="문의 내용을 입력해주세요" required></textarea>
-            <button type="submit">문의하기</button>
-        </form>
-    </div>
-
-    <div class="comments-container">
-        <div id="disqus_thread"></div>
-        <script>
-            var disqus_config = function () {
-                this.page.url = window.location.href;
-                this.page.identifier = window.location.pathname;
-            };
-
-            (function() { // DON'T EDIT BELOW THIS LINE
-            var d = document, s = d.createElement('script');
-            s.src = 'https://product-builder-16.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-            })();
-        </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </div>
-    
     <script src="main.js"></script>
 </body>
 </html>
