@@ -103,16 +103,17 @@ function displayMenu(menu) {
     const cardDiv = document.createElement('div');
     cardDiv.classList.add('menu-card');
 
-    // Image Generation using Pollinations.ai
-    // Adding keywords to ensure food photography style
-    const imageUrl = `https://pollinations.ai/p/${encodeURIComponent(menu.en + " delicious food photography")}?width=400&height=400&seed=${Math.floor(Math.random() * 1000)}`;
+    // Image Generation using Boring Avatars (SVG)
+    // using 'sunset' style for warm, food-like abstract colors
+    const imageUrl = `https://source.boringavatars.com/sunset/400/${encodeURIComponent(menu.en)}?colors=264653,2a9d8f,e9c46a,f4a261,e76f51`;
     
     const imgElement = document.createElement('img');
     imgElement.src = imageUrl;
     imgElement.alt = menuName;
     imgElement.classList.add('menu-image');
     imgElement.onerror = () => {
-        imgElement.src = 'https://via.placeholder.com/400?text=Food+Image';
+        // Fallback to a simple text placeholder if external service fails
+        imgElement.src = `https://placehold.co/400x400/svg?text=${encodeURIComponent(menu.en)}`;
     };
 
     const nameDiv = document.createElement('div');
