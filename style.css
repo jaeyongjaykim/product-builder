@@ -131,3 +131,63 @@ h1 {
     background-color: #45a049;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
+
+.partnership-container {
+    margin-top: 50px;
+    padding: 30px;
+    background-color: var(--container-bg-color);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px var(--box-shadow-color);
+    max-width: 400px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.partnership-container h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+#partnership-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#partnership-form input, #partnership-form textarea {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: var(--container-bg-color);
+    color: var(--primary-text-color);
+    font-size: 14px;
+}
+
+#partnership-form textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+#partnership-form button {
+    padding: 12px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+body.dark-mode #partnership-form button {
+    background-color: #555;
+}
+
+#partnership-form button:hover {
+    background-color: #555;
+}
+
+body.dark-mode #partnership-form button:hover {
+    background-color: #777;
+}

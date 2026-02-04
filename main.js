@@ -33,13 +33,15 @@ const uiText = {
         title: "오늘의 저녁 메뉴는?",
         button: "메뉴 추천받기",
         theme: "테마 변경",
-        lang: "English"
+        lang: "English",
+        partnershipTitle: "제휴 문의"
     },
     en: {
         title: "What's for Dinner Today?",
         button: "Get Recommendation",
         theme: "Toggle Theme",
-        lang: "한국어"
+        lang: "한국어",
+        partnershipTitle: "Partnership Inquiry"
     }
 };
 
@@ -55,6 +57,7 @@ function updateLanguage(lang) {
     generatorBtn.textContent = uiText[lang].button;
     themeToggleBtn.textContent = uiText[lang].theme;
     langToggleBtn.textContent = uiText[lang].lang;
+    document.getElementById('partnership-title').textContent = uiText[lang].partnershipTitle;
     
     // Update display if there's a menu showing
     if (currentMenu) {
