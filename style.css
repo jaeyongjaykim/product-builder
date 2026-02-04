@@ -15,12 +15,15 @@ body.dark-mode {
 body {
     font-family: 'Arial', sans-serif;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
+    padding: 60px 20px;
     background-color: var(--background-color);
     color: var(--primary-text-color);
     transition: background-color 0.3s ease, color 0.3s ease;
+    box-sizing: border-box;
 }
 
 .container {
@@ -30,6 +33,49 @@ body {
     border-radius: 15px;
     box-shadow: 0 10px 20px var(--box-shadow-color), 0 6px 6px var(--box-shadow-color);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box;
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 80px 15px 40px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    .container {
+        padding: 25px 15px;
+    }
+
+    .menu-card {
+        max-width: 100%;
+    }
+
+    .menu-image {
+        height: 250px;
+    }
+
+    .menu-name {
+        font-size: 20px;
+        padding: 15px;
+    }
+
+    #generator-btn {
+        width: 100%;
+        font-size: 18px;
+        padding: 12px;
+    }
+
+    .top-controls {
+        width: 100%;
+        justify-content: center;
+        right: 0;
+        top: 15px;
+    }
 }
 
 h1 {
