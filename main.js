@@ -94,6 +94,30 @@ function getRandomMenu() {
     return menuItems[randomIndex];
 }
 
+function generateMenuSVG(name) {
+    // Generate a simple hash from the name for consistent colors
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+        hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    
+    const getHue = (offset) => Math.abs((hash + offset) % 360);
+    const color1 = `hsl(${getHue(0)}, 70%, 60%)`;
+    const color2 = `hsl(${getHue(120)}, 70%, 40%)`;
+    const color3 = `hsl(${getHue(240)}, 70%, 50%)`;
+
+    // Create a unique abstract SVG
+    const svg = `
+        <svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+            <rect width="400" height="400" fill="${color1}"/>
+            <circle cx="200" cy="200" r="150" fill="${color2}" opacity="0.6"/>
+            <path d="M0 400 Q 200 100 400 400" fill="${color3}" opacity="0.8"/>
+            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="40" fill="white" font-weight="bold">${name}</text>
+        </svg>
+    `;
+    return `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svg)))}`;
+}
+
 function displayMenu(menu) {
     currentMenu = menu; // Store for language switching
     menuContainer.innerHTML = '';
@@ -103,18 +127,13 @@ function displayMenu(menu) {
     const cardDiv = document.createElement('div');
     cardDiv.classList.add('menu-card');
 
-    // Image Generation using Boring Avatars (SVG)
-    // using 'sunset' style for warm, food-like abstract colors
-    const imageUrl = `https://source.boringavatars.com/sunset/400/${encodeURIComponent(menu.en)}?colors=264653,2a9d8f,e9c46a,f4a261,e76f51`;
+    // Local SVG Generation
+    const imageUrl = generateMenuSVG(menu.ko);
     
     const imgElement = document.createElement('img');
     imgElement.src = imageUrl;
     imgElement.alt = menuName;
     imgElement.classList.add('menu-image');
-    imgElement.onerror = () => {
-        // Fallback to a simple text placeholder if external service fails
-        imgElement.src = `https://placehold.co/400x400/svg?text=${encodeURIComponent(menu.en)}`;
-    };
 
     const nameDiv = document.createElement('div');
     nameDiv.classList.add('menu-name');
