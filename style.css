@@ -19,7 +19,6 @@ body {
     align-items: center;
     height: 100vh;
     background-color: var(--background-color);
-    background-image: subtle-noise-texture.png; /* Ensure this path is correct if used */
     color: var(--primary-text-color);
     transition: background-color 0.3s ease, color 0.3s ease;
 }

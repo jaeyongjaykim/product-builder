@@ -105,14 +105,15 @@ function displayMenu(menu) {
 
     // Image Generation using Pollinations.ai
     // Adding keywords to ensure food photography style
-    const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(menu.en + " delicious food photography high quality meal")}?width=400&height=400&nologo=true&seed=${Math.floor(Math.random() * 1000)}`;
+    const imageUrl = `https://pollinations.ai/p/${encodeURIComponent(menu.en + " delicious food photography")}?width=400&height=400&seed=${Math.floor(Math.random() * 1000)}`;
     
     const imgElement = document.createElement('img');
     imgElement.src = imageUrl;
     imgElement.alt = menuName;
     imgElement.classList.add('menu-image');
-    // Add loading placeholder or error handling if needed, 
-    // but browser default behavior is acceptable for this prototype.
+    imgElement.onerror = () => {
+        imgElement.src = 'https://via.placeholder.com/400?text=Food+Image';
+    };
 
     const nameDiv = document.createElement('div');
     nameDiv.classList.add('menu-name');
