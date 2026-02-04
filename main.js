@@ -4,47 +4,61 @@ const themeToggleBtn = document.getElementById('theme-toggle-btn');
 const langToggleBtn = document.getElementById('lang-toggle-btn');
 const mainTitle = document.getElementById('main-title');
 
-// Translations
-const translations = {
+// Unified Menu Data
+const menuItems = [
+    { ko: "김치찌개", en: "Kimchi Stew" },
+    { ko: "된장찌개", en: "Soybean Paste Stew" },
+    { ko: "삼겹살", en: "Grilled Pork Belly BBQ" },
+    { ko: "치킨", en: "Fried Chicken" },
+    { ko: "피자", en: "Pizza" },
+    { ko: "햄버거", en: "Hamburger" },
+    { ko: "초밥", en: "Sushi" },
+    { ko: "파스타", en: "Pasta" },
+    { ko: "떡볶이", en: "Tteokbokki spicy rice cake" },
+    { ko: "라면", en: "Ramen noodles" },
+    { ko: "비빔밥", en: "Bibimbap" },
+    { ko: "불고기", en: "Bulgogi" },
+    { ko: "족발", en: "Jokbal Braised Pig's Trotters" },
+    { ko: "보쌈", en: "Bossam Napa Wraps with Pork" },
+    { ko: "카레", en: "Curry Rice" },
+    { ko: "돈까스", en: "Tonkatsu Pork Cutlet" },
+    { ko: "냉면", en: "Naengmyeon Cold Noodles" },
+    { ko: "칼국수", en: "Kalguksu Noodle Soup" },
+    { ko: "마라탕", en: "Malatang" },
+    { ko: "쌀국수", en: "Pho Rice Noodles" }
+];
+
+const uiText = {
     ko: {
         title: "오늘의 저녁 메뉴는?",
         button: "메뉴 추천받기",
         theme: "테마 변경",
-        lang: "English",
-        menus: [
-            "김치찌개", "된장찌개", "삼겹살", "치킨", "피자", "햄버거",
-            "초밥", "파스타", "떡볶이", "라면", "비빔밥", "불고기",
-            "족발", "보쌈", "카레", "돈까스", "냉면", "칼국수", "마라탕", "쌀국수"
-        ]
+        lang: "English"
     },
     en: {
         title: "What's for Dinner Today?",
         button: "Get Recommendation",
         theme: "Toggle Theme",
-        lang: "한국어",
-        menus: [
-            "Kimchi Stew", "Soybean Paste Stew", "Grilled Pork Belly", "Fried Chicken", "Pizza", "Burger",
-            "Sushi", "Pasta", "Tteokbokki", "Ramen", "Bibimbap", "Bulgogi",
-            "Jokbal", "Bossam", "Curry", "Donkatsu", "Cold Noodles", "Kalguksu", "Malatang", "Pho"
-        ]
+        lang: "한국어"
     }
 };
 
 let currentLang = localStorage.getItem('lang') || 'ko';
+let currentMenu = null;
 
 function updateLanguage(lang) {
     currentLang = lang;
     localStorage.setItem('lang', lang);
     
     document.documentElement.lang = lang;
-    mainTitle.textContent = translations[lang].title;
-    generatorBtn.textContent = translations[lang].button;
-    themeToggleBtn.textContent = translations[lang].theme;
-    langToggleBtn.textContent = translations[lang].lang;
+    mainTitle.textContent = uiText[lang].title;
+    generatorBtn.textContent = uiText[lang].button;
+    themeToggleBtn.textContent = uiText[lang].theme;
+    langToggleBtn.textContent = uiText[lang].lang;
     
     // Update display if there's a menu showing
-    if (menuContainer.firstChild) {
-        displayMenu(getRandomMenu());
+    if (currentMenu) {
+        displayMenu(currentMenu);
     }
 }
 
@@ -76,22 +90,45 @@ langToggleBtn.addEventListener('click', () => {
 });
 
 function getRandomMenu() {
-    const menus = translations[currentLang].menus;
-    const randomIndex = Math.floor(Math.random() * menus.length);
-    return menus[randomIndex];
+    const randomIndex = Math.floor(Math.random() * menuItems.length);
+    return menuItems[randomIndex];
 }
 
-function displayMenu(menuName) {
+function displayMenu(menu) {
+    currentMenu = menu; // Store for language switching
     menuContainer.innerHTML = '';
-    const menuDiv = document.createElement('div');
-    menuDiv.classList.add('menu-item');
-    menuDiv.textContent = menuName;
-    menuContainer.appendChild(menuDiv);
+    
+    const menuName = menu[currentLang];
+    
+    const cardDiv = document.createElement('div');
+    cardDiv.classList.add('menu-card');
+
+    // Image Generation using Pollinations.ai
+    // Adding keywords to ensure food photography style
+    const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(menu.en + " delicious food photography high quality meal")}?width=400&height=400&nologo=true&seed=${Math.floor(Math.random() * 1000)}`;
+    
+    const imgElement = document.createElement('img');
+    imgElement.src = imageUrl;
+    imgElement.alt = menuName;
+    imgElement.classList.add('menu-image');
+    // Add loading placeholder or error handling if needed, 
+    // but browser default behavior is acceptable for this prototype.
+
+    const nameDiv = document.createElement('div');
+    nameDiv.classList.add('menu-name');
+    nameDiv.textContent = menuName;
+
+    cardDiv.appendChild(imgElement);
+    cardDiv.appendChild(nameDiv);
+    
+    menuContainer.appendChild(cardDiv);
 }
 
 function handleGeneratorClick() {
-    menuContainer.innerHTML = ''; 
+    menuContainer.innerHTML = '<div class="loading">...</div>'; // Simple loading state
     const menu = getRandomMenu();
+    // Small delay to make it feel like "processing" if desired, 
+    // but direct call is snappier.
     displayMenu(menu);
 }
 
@@ -99,4 +136,5 @@ generatorBtn.addEventListener('click', handleGeneratorClick);
 
 // Initial setup
 updateLanguage(currentLang);
-displayMenu(getRandomMenu());
+// Generate one on load
+handleGeneratorClick();
