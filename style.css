@@ -208,6 +208,24 @@ body.dark-mode .navbar {
     transform: translateY(0);
 }
 
+.nav-link {
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all var(--transition-fast);
+    padding: 0 var(--space-md);
+    height: 42px;
+    display: flex;
+    align-items: center;
+    border-radius: var(--radius-lg);
+}
+
+.nav-link:hover {
+    color: var(--primary);
+    background: var(--bg-tertiary);
+}
+
 .nav-btn.lang-btn {
     width: auto;
     padding: 0 var(--space-lg);
