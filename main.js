@@ -76,7 +76,18 @@ const uiText = {
     }
 };
 
-let currentLang = localStorage.getItem('lang') || 'ko';
+// Get system language preference
+function getSystemLang() {
+    const browserLang = navigator.language || navigator.userLanguage;
+    return browserLang.startsWith('ko') ? 'ko' : 'en';
+}
+
+// Get system theme preference
+function getSystemTheme() {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+let currentLang = localStorage.getItem('lang') || getSystemLang();
 let currentMenu = null;
 
 // Initialize language
@@ -134,17 +145,6 @@ function applyTheme(isDarkMode) {
     } else {
         document.body.classList.remove('dark-mode');
     }
-}
-
-// Load saved theme
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme === 'dark') {
-    applyTheme(true);
-}
-
-themeToggleBtn.addEventListener('click', () => {
-    const isDarkMode = document.body.classList.toggle('dark-mode');
-    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
 
     // Reset Disqus for theme
     if (typeof DISQUS !== 'undefined') {
@@ -156,6 +156,27 @@ themeToggleBtn.addEventListener('click', () => {
             }
         });
     }
+}
+
+// Load saved theme or use system preference
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme) {
+    applyTheme(savedTheme === 'dark');
+} else {
+    applyTheme(getSystemTheme() === 'dark');
+}
+
+// Listen for system theme changes
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    // Only apply if user hasn't set a preference
+    if (!localStorage.getItem('theme')) {
+        applyTheme(e.matches);
+    }
+});
+
+themeToggleBtn.addEventListener('click', () => {
+    const isDarkMode = document.body.classList.toggle('dark-mode');
+    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
 });
 
 langToggleBtn.addEventListener('click', () => {

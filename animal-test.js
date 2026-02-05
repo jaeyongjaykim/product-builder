@@ -3,7 +3,14 @@ const URL = "https://teachablemachine.withgoogle.com/models/sRJk5css6J/";
 
 let model;
 let uploadedImage = null;
-let currentLang = localStorage.getItem('lang') || 'ko';
+
+// Get system language preference
+function getSystemLang() {
+    const browserLang = navigator.language || navigator.userLanguage;
+    return browserLang.startsWith('ko') ? 'ko' : 'en';
+}
+
+let currentLang = localStorage.getItem('lang') || getSystemLang();
 
 // UI Text translations
 const uiText = {
