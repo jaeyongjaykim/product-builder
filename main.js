@@ -47,7 +47,10 @@ const uiText = {
         labelMessage: "문의 내용",
         submitBtn: "문의하기",
         commentsTitle: "커뮤니티",
-        commentsDesc: "다른 사람들과 메뉴 고민을 나눠보세요"
+        commentsDesc: "다른 사람들과 메뉴 고민을 나눠보세요",
+        loading: "추천 중",
+        placeholderName: "홍길동",
+        placeholderMessage: "문의하실 내용을 입력해주세요"
     },
     en: {
         heroTitle1: "What's for",
@@ -66,7 +69,10 @@ const uiText = {
         labelMessage: "Message",
         submitBtn: "Send",
         commentsTitle: "Community",
-        commentsDesc: "Share your food dilemmas with others"
+        commentsDesc: "Share your food dilemmas with others",
+        loading: "Loading",
+        placeholderName: "John Doe",
+        placeholderMessage: "Please enter your inquiry"
     }
 };
 
@@ -110,6 +116,10 @@ function updateLanguage(lang) {
     // Update comments
     document.getElementById('comments-title').textContent = text.commentsTitle;
     document.getElementById('comments-desc').textContent = text.commentsDesc;
+
+    // Update placeholders
+    document.getElementById('name').placeholder = text.placeholderName;
+    document.getElementById('message').placeholder = text.placeholderMessage;
 
     // Update menu display
     if (currentMenu) {
@@ -211,7 +221,8 @@ function displayMenu(menu) {
 
 function handleGeneratorClick() {
     // Show loading
-    menuContainer.innerHTML = '<div class="loading">추천 중</div>';
+    const loadingText = uiText[currentLang].loading;
+    menuContainer.innerHTML = `<div class="loading">${loadingText}</div>`;
 
     // Slight delay for effect
     setTimeout(() => {

@@ -3,29 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>동물상 테스트 - 나는 강아지상? 고양이상?</title>
+    <title id="page-title">동물상 테스트 - 나는 강아지상? 고양이상?</title>
     <link rel="stylesheet" href="animal-test.css">
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
 </head>
 <body>
-    <a href="index.html" class="back-link">← 메인으로 돌아가기</a>
+    <a href="index.html" class="back-link" id="back-link">← 메인으로 돌아가기</a>
 
     <div class="container">
-        <h1>동물상 테스트</h1>
-        <p class="subtitle">나는 강아지상일까? 고양이상일까?</p>
+        <h1 id="main-title">동물상 테스트</h1>
+        <p class="subtitle" id="subtitle">나는 강아지상일까? 고양이상일까?</p>
 
         <div id="start-screen">
             <div class="animal-icons">
                 <span class="animal-icon dog">🐶</span>
                 <span class="animal-icon cat">🐱</span>
             </div>
-            <p class="description">사진을 업로드해서<br>어떤 동물과 닮았는지 알려드려요!</p>
+            <p class="description" id="description">사진을 업로드해서<br>어떤 동물과 닮았는지 알려드려요!</p>
 
             <div id="upload-area" class="upload-area">
                 <div class="upload-icon">📷</div>
-                <p class="upload-text">이미지를 드래그하거나 클릭하여 업로드</p>
-                <p class="upload-hint">JPG, PNG 파일 지원</p>
+                <p class="upload-text" id="upload-text">이미지를 드래그하거나 클릭하여 업로드</p>
+                <p class="upload-hint" id="upload-hint">JPG, PNG 파일 지원</p>
                 <input type="file" id="file-input" accept="image/*" hidden>
             </div>
         </div>
@@ -36,7 +36,7 @@
             </div>
             <div id="loading-text" class="hidden">
                 <span class="loading-spinner"></span>
-                모델 로딩 중...
+                <span id="loading-message">모델 로딩 중...</span>
             </div>
             <div id="button-group">
                 <button id="analyze-btn">분석하기</button>
