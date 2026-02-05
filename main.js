@@ -376,21 +376,24 @@ handleGeneratorClick();
 
 // Add scroll animations (Intersection Observer)
 const observerOptions = {
-    threshold: 0.1,
+    threshold: 0.15,
     rootMargin: '0px 0px -50px 0px'
 };
 
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            entry.target.style.animationPlayState = 'running';
+            entry.target.classList.add('visible');
             observer.unobserve(entry.target);
         }
     });
 }, observerOptions);
 
 // Observe animated elements
-document.querySelectorAll('.feature-card, .partnership-wrapper, .comments-wrapper').forEach(el => {
-    el.style.animationPlayState = 'paused';
+const animatedElements = document.querySelectorAll(
+    '.feature-card, .partnership-wrapper, .comments-wrapper, .howto-card, .menu-category, .faq-item'
+);
+
+animatedElements.forEach(el => {
     observer.observe(el);
 });
