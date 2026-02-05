@@ -40,6 +40,28 @@ const uiText = {
         animalTestTitle: "동물상 테스트",
         animalTestDesc: "나는 강아지상? 고양이상? AI가 분석해드려요",
         animalTestCta: "테스트 하기 →",
+        howtoTitle: "사용 방법",
+        howtoDesc: "3단계로 간단하게 오늘의 메뉴를 결정하세요",
+        howtoStep1Title: "버튼 클릭",
+        howtoStep1Desc: "\"메뉴 추천받기\" 버튼을 클릭하세요",
+        howtoStep2Title: "메뉴 확인",
+        howtoStep2Desc: "랜덤으로 추천된 메뉴를 확인하세요",
+        howtoStep3Title: "맛있게 식사",
+        howtoStep3Desc: "추천 메뉴로 맛있는 식사를 즐기세요!",
+        menuinfoTitle: "추천 메뉴 소개",
+        menuinfoDesc: "20가지 이상의 다양한 메뉴를 준비했어요",
+        catKorean: "한식",
+        catAsian: "아시안",
+        catWestern: "양식 & 분식",
+        faqTitle: "자주 묻는 질문",
+        faqQ1: "서비스는 무료인가요?",
+        faqA1: "네, 완전 무료입니다! 회원가입 없이 누구나 바로 이용할 수 있어요.",
+        faqQ2: "추천 기준이 있나요?",
+        faqA2: "완전히 무작위(랜덤)로 추천해요. 복잡한 알고리즘 없이 공정하게!",
+        faqQ3: "마음에 안 들면 어떻게 하나요?",
+        faqA3: "버튼을 다시 누르면 새로운 메뉴가 추천돼요. 마음에 드는 메뉴가 나올 때까지 눌러보세요!",
+        faqQ4: "새로운 메뉴 추가 요청은 어떻게 하나요?",
+        faqA4: "아래 제휴 문의 양식을 통해 요청해 주세요. 검토 후 추가할게요!",
         partnershipTitle: "제휴 문의",
         partnershipDesc: "비즈니스 협업 및 제휴에 관심이 있으시다면 연락주세요",
         labelName: "성함/업체명",
@@ -50,7 +72,16 @@ const uiText = {
         commentsDesc: "다른 사람들과 메뉴 고민을 나눠보세요",
         loading: "추천 중",
         placeholderName: "홍길동",
-        placeholderMessage: "문의하실 내용을 입력해주세요"
+        placeholderMessage: "문의하실 내용을 입력해주세요",
+        navAbout: "소개",
+        footerTagline: "결정장애 탈출! 버튼 하나로 메뉴 추천",
+        footerService: "서비스",
+        footerHome: "홈",
+        footerAnimal: "동물상 테스트",
+        footerInfo: "정보",
+        footerAbout: "소개",
+        footerPrivacy: "개인정보처리방침",
+        footerTerms: "이용약관"
     },
     en: {
         heroTitle1: "What's for",
@@ -62,6 +93,28 @@ const uiText = {
         animalTestTitle: "Animal Face Test",
         animalTestDesc: "Are you a puppy or a kitty? Let AI analyze your face!",
         animalTestCta: "Take Test →",
+        howtoTitle: "How to Use",
+        howtoDesc: "Decide today's menu in 3 simple steps",
+        howtoStep1Title: "Click Button",
+        howtoStep1Desc: "Click the \"Get Recommendation\" button",
+        howtoStep2Title: "Check Menu",
+        howtoStep2Desc: "See the randomly recommended menu",
+        howtoStep3Title: "Enjoy Your Meal",
+        howtoStep3Desc: "Enjoy your delicious meal!",
+        menuinfoTitle: "Menu Collection",
+        menuinfoDesc: "Over 20 diverse menu options available",
+        catKorean: "Korean",
+        catAsian: "Asian",
+        catWestern: "Western & Snacks",
+        faqTitle: "FAQ",
+        faqQ1: "Is the service free?",
+        faqA1: "Yes, it's completely free! Anyone can use it without signing up.",
+        faqQ2: "Is there a recommendation criteria?",
+        faqA2: "It's completely random. No complex algorithms, just fair randomness!",
+        faqQ3: "What if I don't like the result?",
+        faqA3: "Just click the button again for a new menu. Keep clicking until you find one you like!",
+        faqQ4: "How can I request new menu additions?",
+        faqA4: "Use the partnership form below. We'll review and add them!",
         partnershipTitle: "Partnership",
         partnershipDesc: "Interested in business collaboration? Contact us!",
         labelName: "Name/Company",
@@ -72,7 +125,16 @@ const uiText = {
         commentsDesc: "Share your food dilemmas with others",
         loading: "Loading",
         placeholderName: "John Doe",
-        placeholderMessage: "Please enter your inquiry"
+        placeholderMessage: "Please enter your inquiry",
+        navAbout: "About",
+        footerTagline: "Escape decision fatigue! One-click menu recommendation",
+        footerService: "Service",
+        footerHome: "Home",
+        footerAnimal: "Animal Face Test",
+        footerInfo: "Info",
+        footerAbout: "About",
+        footerPrivacy: "Privacy Policy",
+        footerTerms: "Terms of Service"
     }
 };
 
@@ -131,6 +193,60 @@ function updateLanguage(lang) {
     // Update placeholders
     document.getElementById('name').placeholder = text.placeholderName;
     document.getElementById('message').placeholder = text.placeholderMessage;
+
+    // Update how-to section
+    const howtoTitle = document.getElementById('howto-title');
+    if (howtoTitle) {
+        howtoTitle.textContent = text.howtoTitle;
+        document.getElementById('howto-desc').textContent = text.howtoDesc;
+        document.getElementById('howto-step1-title').textContent = text.howtoStep1Title;
+        document.getElementById('howto-step1-desc').textContent = text.howtoStep1Desc;
+        document.getElementById('howto-step2-title').textContent = text.howtoStep2Title;
+        document.getElementById('howto-step2-desc').textContent = text.howtoStep2Desc;
+        document.getElementById('howto-step3-title').textContent = text.howtoStep3Title;
+        document.getElementById('howto-step3-desc').textContent = text.howtoStep3Desc;
+    }
+
+    // Update menu info section
+    const menuinfoTitle = document.getElementById('menuinfo-title');
+    if (menuinfoTitle) {
+        menuinfoTitle.textContent = text.menuinfoTitle;
+        document.getElementById('menuinfo-desc').textContent = text.menuinfoDesc;
+        document.getElementById('cat-korean').textContent = text.catKorean;
+        document.getElementById('cat-asian').textContent = text.catAsian;
+        document.getElementById('cat-western').textContent = text.catWestern;
+    }
+
+    // Update FAQ section
+    const faqTitle = document.getElementById('faq-title');
+    if (faqTitle) {
+        faqTitle.textContent = text.faqTitle;
+        document.getElementById('faq-q1').textContent = text.faqQ1;
+        document.getElementById('faq-a1').textContent = text.faqA1;
+        document.getElementById('faq-q2').textContent = text.faqQ2;
+        document.getElementById('faq-a2').textContent = text.faqA2;
+        document.getElementById('faq-q3').textContent = text.faqQ3;
+        document.getElementById('faq-a3').textContent = text.faqA3;
+        document.getElementById('faq-q4').textContent = text.faqQ4;
+        document.getElementById('faq-a4').textContent = text.faqA4;
+    }
+
+    // Update navigation
+    const navAbout = document.getElementById('nav-about');
+    if (navAbout) navAbout.textContent = text.navAbout;
+
+    // Update footer
+    const footerTagline = document.getElementById('footer-tagline');
+    if (footerTagline) {
+        footerTagline.textContent = text.footerTagline;
+        document.getElementById('footer-service').textContent = text.footerService;
+        document.getElementById('footer-home').textContent = text.footerHome;
+        document.getElementById('footer-animal').textContent = text.footerAnimal;
+        document.getElementById('footer-info').textContent = text.footerInfo;
+        document.getElementById('footer-about').textContent = text.footerAbout;
+        document.getElementById('footer-privacy').textContent = text.footerPrivacy;
+        document.getElementById('footer-terms').textContent = text.footerTerms;
+    }
 
     // Update menu display
     if (currentMenu) {

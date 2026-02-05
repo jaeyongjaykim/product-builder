@@ -609,16 +609,256 @@ body.dark-mode .theme-icon.dark {
     border: 1px solid var(--border-color);
 }
 
-/* ===== Footer ===== */
-.footer {
-    padding: var(--space-xl) var(--space-lg);
-    text-align: center;
-    border-top: 1px solid var(--border-color);
+/* ===== Navigation Menu ===== */
+.nav-menu {
+    display: flex;
+    gap: var(--space-lg);
 }
 
-.footer-content p {
-    color: var(--text-tertiary);
+.nav-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9375rem;
+    transition: color var(--transition-fast);
+}
+
+.nav-link:hover {
+    color: var(--primary);
+}
+
+/* ===== How To Section ===== */
+.howto-section {
+    padding: var(--space-3xl) var(--space-lg);
+}
+
+.howto-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-lg);
+    margin-top: var(--space-xl);
+}
+
+.howto-card {
+    text-align: center;
+    padding: var(--space-xl);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-xl);
+    transition: transform var(--transition-fast);
+}
+
+.howto-card:hover {
+    transform: translateY(-4px);
+}
+
+.howto-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-bottom: var(--space-md);
+}
+
+.howto-card h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: var(--space-sm);
+}
+
+.howto-card p {
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
+}
+
+/* ===== Menu Info Section ===== */
+.menuinfo-section {
+    padding: var(--space-3xl) var(--space-lg);
+    background: var(--bg-secondary);
+}
+
+.menu-categories {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+    margin-top: var(--space-xl);
+}
+
+.menu-category h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: var(--space-md);
+    color: var(--primary);
+}
+
+.menu-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+}
+
+.menu-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--bg-primary);
+    border-radius: var(--radius-full);
     font-size: 0.875rem;
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    transition: all var(--transition-fast);
+}
+
+.menu-tag:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+/* ===== FAQ Section ===== */
+.faq-section {
+    padding: var(--space-3xl) var(--space-lg);
+}
+
+.faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    margin-top: var(--space-xl);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.faq-item {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+.faq-item summary {
+    padding: var(--space-md) var(--space-lg);
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--text-primary);
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.faq-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq-item summary::after {
+    content: '+';
+    font-size: 1.25rem;
+    color: var(--primary);
+    transition: transform var(--transition-fast);
+}
+
+.faq-item[open] summary::after {
+    transform: rotate(45deg);
+}
+
+.faq-item p {
+    padding: 0 var(--space-lg) var(--space-lg);
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.8;
+}
+
+/* ===== Footer ===== */
+.footer {
+    border-top: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+}
+
+.footer-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: var(--space-2xl) var(--space-lg);
+}
+
+.footer-main {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-2xl);
+    margin-bottom: var(--space-2xl);
+    flex-wrap: wrap;
+}
+
+.footer-brand {
+    max-width: 300px;
+}
+
+.footer-logo {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.footer-tagline {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin-top: var(--space-sm);
+}
+
+.footer-links-section {
+    display: flex;
+    gap: var(--space-3xl);
+}
+
+.footer-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.footer-column h4 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-xs);
+}
+
+.footer-column a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color var(--transition-fast);
+}
+
+.footer-column a:hover {
+    color: var(--primary);
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--border-color);
+    flex-wrap: wrap;
+    gap: var(--space-md);
+}
+
+.footer-copyright {
+    color: var(--text-tertiary);
+    font-size: 0.75rem;
+}
+
+.footer-love {
+    color: var(--text-tertiary);
+    font-size: 0.75rem;
 }
 
 /* ===== Responsive ===== */
@@ -645,6 +885,30 @@ body.dark-mode .theme-icon.dark {
     }
 }
 
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+    }
+
+    .footer-main {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-brand {
+        max-width: none;
+    }
+
+    .footer-links-section {
+        justify-content: center;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
 @media (max-width: 480px) {
     .nav-btn {
         width: 36px;
@@ -667,6 +931,15 @@ body.dark-mode .theme-icon.dark {
 
     .emoji-float {
         font-size: 2.5rem;
+    }
+
+    .howto-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-links-section {
+        flex-direction: column;
+        gap: var(--space-xl);
     }
 }
 
